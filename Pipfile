@@ -7,6 +7,7 @@ name = "pypi"
 flask = "==3.1.0"
 pymongo = "==4.11.3"
 python-dotenv = "==1.0.1"
+marshmallow = "==3.26.1"
 
 [dev-packages]
 

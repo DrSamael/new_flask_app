@@ -2,6 +2,8 @@ from flask import Blueprint, request, jsonify
 from bson.objectid import ObjectId
 
 from source.database import employees_collection
+from source.schemas import employee_schema
+from source.utils import serialize_doc
 
 employee_bp = Blueprint("employee_bp", __name__)
 
@@ -9,11 +11,15 @@ employee_bp = Blueprint("employee_bp", __name__)
 @employee_bp.route("/", methods=["POST"])
 def create_employee():
     data = request.json
-    if not data or "name" not in data:
-        return jsonify({"error": "Missing required field: name"}), 400
+    errors = employee_schema.validate(data)
+    if errors:
+        return jsonify({"error": errors}), 400
 
-    employee_id = employees_collection.insert_one({"name": data["name"]}).inserted_id
-    return jsonify({"id": str(employee_id), "name": data["name"]}), 201
+    employee = employee_schema.load(data)
+    employee_id = employees_collection.insert_one(employee).inserted_id
+
+    new_employee = employees_collection.find_one({"_id": employee_id})
+    return jsonify(serialize_doc(new_employee)), 201
 
 
 @employee_bp.route("/", methods=["GET"])
