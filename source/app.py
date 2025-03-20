@@ -1,5 +1,5 @@
 from flask import Flask
-from source.employee_routes import employee_bp
+from source.employees.routes import employee_bp
 
 app = Flask(__name__)
 
