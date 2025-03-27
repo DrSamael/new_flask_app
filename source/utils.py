@@ -1,9 +1,18 @@
+from datetime import datetime
+
 from marshmallow import fields
 from bson import ObjectId
 
 
 def serialize_doc(doc):
-    return {key: str(value) if isinstance(value, ObjectId) else value for key, value in doc.items()}
+    return {
+        key: (
+            str(value) if isinstance(value, ObjectId) else
+            value.isoformat() if isinstance(value, datetime) else
+            value
+        )
+        for key, value in doc.items()
+    }
 
 
 class ObjectIdField(fields.Field):
