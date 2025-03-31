@@ -8,6 +8,7 @@ class DailyLogSchema(Schema):
     execution_time = fields.Float(required=True)
     project_id = ObjectIdField(required=True)
     employee_id = ObjectIdField(required=True)
+    created_at = fields.DateTime(dump_only=True)
 
 
 daily_log_schema = DailyLogSchema()

@@ -18,6 +18,7 @@ class EmployeeSchema(Schema):
     is_active = fields.Boolean(missing=True)
     position = fields.Nested(PositionSchema, required=True)
     qualification = fields.Nested(QualificationSchema, required=True)
+    created_at = fields.DateTime(dump_only=True)
 
 
 employee_schema = EmployeeSchema()

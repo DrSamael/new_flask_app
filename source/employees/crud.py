@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from bson.objectid import ObjectId
 
 from source.database import employees_collection
@@ -11,6 +13,7 @@ def add_employee(data):
         return {"error": errors}, 400
 
     employee = employee_schema.load(data)
+    employee["created_at"] = datetime.now()
     employee_id = employees_collection.insert_one(employee).inserted_id
 
     new_employee = employees_collection.find_one({"_id": employee_id})
