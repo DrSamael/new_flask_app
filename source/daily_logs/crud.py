@@ -20,8 +20,10 @@ def add_daily_log(data):
     return serialize_doc(new_daily_log)
 
 
-def retrieve_daily_logs():
-    daily_logs = daily_logs_collection.find()
+def retrieve_daily_logs(statement: dict = None):
+    if statement is None:
+        statement = {}
+    daily_logs = daily_logs_collection.find(statement)
     return [serialize_doc(emp) for emp in daily_logs]
 
 
