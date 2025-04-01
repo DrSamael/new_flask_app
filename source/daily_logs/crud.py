@@ -5,12 +5,13 @@ from bson.objectid import ObjectId
 from source.database import daily_logs_collection
 from source.daily_logs.schemas import daily_log_schema
 from source.utils import serialize_doc
+from source.daily_logs.validations.daily_time_validator import validate_daily_log
 
 
 def add_daily_log(data):
-    errors = daily_log_schema.validate(data)
-    if errors:
-        return {"error": errors}, 400
+    validation_error = validate_daily_log(data)
+    if validation_error:
+        return validation_error  # Return validation error response
 
     daily_log = daily_log_schema.load(data)
     daily_log["created_at"] = datetime.now()
