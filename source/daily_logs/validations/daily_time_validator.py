@@ -13,7 +13,7 @@ def validate_daily_log(data):
 
     try:
         employee_id = ObjectId(data["employee_id"])
-    except:
+    except errors.InvalidId:
         return {"error": "Invalid employee ID"}, 400
 
     execution_time = data.get("execution_time", 0)

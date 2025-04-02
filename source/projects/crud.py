@@ -3,12 +3,17 @@ from bson.objectid import ObjectId
 from source.database import projects_collection
 from source.projects.schemas import project_schema
 from source.utils import serialize_doc
+from source.projects.validations.validate_customer import validate_customer_eligibility
 
 
 def add_project(data):
     errors = project_schema.validate(data)
     if errors:
         return {"error": errors}, 400
+
+    validation_error = validate_customer_eligibility(data["customer_id"])
+    if validation_error:
+        return validation_error
 
     project = project_schema.load(data)
     project_id = projects_collection.insert_one(project).inserted_id
