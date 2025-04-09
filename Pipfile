@@ -9,6 +9,9 @@ pymongo = "==4.11.3"
 python-dotenv = "==1.0.1"
 marshmallow = "==3.26.1"
 flask-restful = "==0.3.10"
+flask-socketio = "==5.5.1"
+requests = "==2.32.3"
+python-socketio = {extras = ["client"], version = "*"}
 
 [dev-packages]
 
