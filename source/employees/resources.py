@@ -1,9 +1,11 @@
 from flask_restful import Resource
-from flask import request
+from flask import request, Blueprint
 
 from source.employees.crud import add_employee, retrieve_employees, retrieve_employee, update_employee, delete_employee
 from source.employees.services.calculate_employee_wages import calculate_employee_wages
 from source.employees.services.calculate_all_employees_wages import calculate_all_employees_wages
+
+employees_bp = Blueprint("employees", __name__)
 
 
 class EmployeeListResource(Resource):
@@ -47,3 +49,8 @@ class EmployeeAllWageResource(Resource):
             return {"error": "month and year parameters are required"}, 400
 
         return calculate_all_employees_wages(month, year)
+
+
+@employees_bp.route("/employees-async", methods=["GET"])
+async def async_get_employees():
+    return retrieve_employees()

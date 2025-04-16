@@ -11,6 +11,10 @@ from source.project_budgets.routes import initialize_routes as initialize_projec
 app = Flask(__name__)
 api = Api(app)
 
+from source.employees.resources import employees_bp
+
+app.register_blueprint(employees_bp)
+
 initialize_employee_routes(api)
 initialize_project_routes(api)
 initialize_customer_routes(api)
