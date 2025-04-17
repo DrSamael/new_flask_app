@@ -4,6 +4,7 @@ from flask import request, Blueprint
 from source.employees.crud import add_employee, retrieve_employees, retrieve_employee, update_employee, delete_employee
 from source.employees.services.calculate_employee_wages import calculate_employee_wages
 from source.employees.services.calculate_all_employees_wages import calculate_all_employees_wages
+from source.employees.services.csv_import import import_employees
 
 employees_bp = Blueprint("employees", __name__)
 
@@ -49,6 +50,15 @@ class EmployeeAllWageResource(Resource):
             return {"error": "month and year parameters are required"}, 400
 
         return calculate_all_employees_wages(month, year)
+
+
+class EmployeeImportResource(Resource):
+    def post(self):
+        if "file" not in request.files:
+            return {"error": "CSV file is required"}, 400
+
+        file = request.files["file"]
+        return import_employees(file)
 
 
 @employees_bp.route("/employees-async", methods=["GET"])
