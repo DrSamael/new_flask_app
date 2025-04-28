@@ -7,6 +7,10 @@ from source.employees.crud import add_employee
 def import_employees(file):
     try:
         df = pd.read_csv(file)
+        df["is_active"] = df["is_active"].str.strip().str.lower().map({
+            "active": True,
+            "not active": False
+        })
     except Exception as e:
         return {"error": f"Failed to read CSV: {str(e)}"}, 400
 
