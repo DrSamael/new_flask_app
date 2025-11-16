@@ -24,23 +24,41 @@ initialize_project_budgets_routes(api)
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 
-@socketio.on('connect')
-def handle_connect():
-    print("Client connected")
-    emit('chat_response', {'msg': 'Welcome to the chat!'})
-
-
-@socketio.on('chat')
-def handle_chat(data):
-    print(f"Chat event received: {data}")
-    # Send the response to all connected clients
-    emit('chat_response', {'msg': f"Echo: {data['msg']}"}, broadcast=True)
+# @socketio.on('connect')
+# def handle_connect():
+#     print("Client connected")
+#     emit('chat_response', {'msg': 'Welcome to the chat!'})
+#
+#
+# @socketio.on('chat')
+# def handle_chat(data):
+#     print(f"Chat event received: {data}")
+#     # Send the response to all connected clients
+#     emit('chat_response', {'msg': f"Echo: {data['msg']}"}, broadcast=True)
 
 
 # @socketio.on("message")
 # def handle_message(msg):
 #     print(f"Message received: {msg}")
 #     send(f"Server received: {msg}", broadcast=True)  # Broadcast message to all connected clients
+
+
+# @socketio.on('disconnect')
+# def handle_disconnect():
+#     print("Client disconnected")
+
+
+
+@socketio.on('connect')
+def handle_connect():
+    print("Client connected")
+    emit("server_message", {"message": "Welcome!"})
+
+
+@socketio.on('client_message')
+def handle_client_message(data):
+    print("Received from client:", data)
+    emit("server_message", {"message": data.get("message")}, broadcast=True)
 
 
 @socketio.on('disconnect')

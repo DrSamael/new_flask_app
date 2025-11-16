@@ -13,6 +13,7 @@ requests = "==2.32.3"
 python-socketio = {extras = ["client"], version = "==5.13.0"}
 flask = {extras = ["async"], version = "==3.1.0"}
 pandas = "==2.2.3"
+eventlet = "*"
 
 [dev-packages]
 

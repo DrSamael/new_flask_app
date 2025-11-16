@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SocketIO test</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body>
+<h1>WebSocket Test</h1>
+
+<script>
+    const socket = io("http://localhost:5000");
+
+    socket.on("connect", () => {
+        console.log("Connected!");
+        socket.emit("client_message", { message: "From client. Hello server!" });
+    });
+
+    socket.on("server_message", (data) => {
+        console.log("Message from server:", data);
+    });
+</script>
+
+</body>
+</html>
